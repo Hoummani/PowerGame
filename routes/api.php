@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('games', 'RestController');
+Route::resource('players', 'RestPlayerController');
 //Route::get('users', 'RestController@index');

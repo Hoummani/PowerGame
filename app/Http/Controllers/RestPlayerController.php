@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Game;
+use App\Player;
 use Validator;
- 
-class RestController extends Controller
+use Illuminate\Http\Request;
+
+class RestPlayerController extends Controller
 {
     //
-
     public function sendResponse($result,$message,$statusResult){
 
         $response=[
@@ -22,22 +21,22 @@ class RestController extends Controller
 
     }
 
-
-
     public function index(){
-        $games=Game::all();
+        $players=Player::all();
         
-        $result=$games->toArray();
+        $result=$players->toArray();
         $message="Read successfuly !";
         $statusResult=true;
         return $this->sendResponse($result,$message,$statusResult);
     }
 
+
     public function store(Request $request){
         $inputs=$request->all();
         $validator=Validator::make($inputs,[
-            'winer_id'=>'required',
-            'loster_id'=>'required'
+            'game_id'=>'required',
+            'fullName'=>'required',
+            'score'=>'required'
         ]);
         if ($validator->fails()) {
             # code...
@@ -46,43 +45,45 @@ class RestController extends Controller
             $statusResult=false;
             return $this->sendResponse($result,$message,$statusResult);
         }
-        $game=Game::create($inputs,[
-            'winer_id'=>$request->winer_id,
-            'loster_id'=>$request->loster_id
+        $player=Player::create($inputs,[
+            'game_id'=>$request->game_id,
+            'fullName'=>$request->fullName,
+            'score'=>$request->score
             
         ]);
         
-        $result=$game->toArray();
-        $message="game created successfly!";
+        $result=$player->toArray();
+        $message="player created successfly!";
         $statusResult=true;
         return $this->sendResponse($result,$message,$statusResult);
     }
 
+
+
     public function show($id){
 
-        $game=Game::find($id);
+        $player=Player::find($id);
 
         if (is_null($game)) {
             # code...
             $result=[];
-            $message="game not found !";
+            $message="player not found !";
             $statusResult=false;
             return $this->sendResponse($result,$message,$statusResult);
         }
-        $result=$game->toArray();
-        $message="game is here !";
+        $result=$player->toArray();
+        $message="Player is here !";
         $statusResult=true;
         return $this->sendResponse($result,$message,$statusResult);
 
     }
 
-
-
-    public function update(Request $request,Game $game){
+    public function update(Request $request,Player $player){
         $inputs=$request->all();
         $validator=Validator::make($inputs,[
-            'winer_id'=>'required',
-            'loster_id'=>'required'
+            'game_id'=>'required',
+            'fullName'=>'required',
+            'score'=>'required'
         ]);
         if ($validator->fails()) {
             # code...
@@ -91,25 +92,23 @@ class RestController extends Controller
             $statusResult=false;
             return $this->sendResponse($result,$message,$statusResult);
         }
-        $game->winer_id=$inputs['winer_id'];
-        $game->loster_id=$inputs['loster_id'];
-        //$game->begin_at=$inputs['begin_at'];
-        //$game->end_at=$inputs['end_at'];
+        $player->game_id=$inputs['game_id'];
+        $player->fullName=$inputs['fullName'];
+        $player->score=$inputs['score'];
+        //$player->end_at=$inputs['end_at'];
         
-        $game->save();
-        $result=$game->toArray();
-        $message="Game updated with happy moments hhhhh !";
+        $player->save();
+        $result=$player->toArray();
+        $message="Player updated with happy moments hhhhh !";
         $statusResult=true;
         return $this->sendResponse($result,$message,$statusResult);
     }
 
-    public function destroy(Game $game){
-        $game->delete();
-        $result=$game->toArray();
-        $message="Game deleted with sorry for going ): !";
+    public function destroy(Player $player){
+        $player->delete();
+        $result=$player->toArray();
+        $message="Player deleted with sorry for going ): !";
         $statusResult=true;
         return $this->sendResponse($result,$message,$statusResult);
     }
-
-
 }

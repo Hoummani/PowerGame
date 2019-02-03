@@ -11,7 +11,7 @@ class Game extends Model
     //
 
     protected $fillable = [
-        'winer_id', 'loster_id', 'begin_at','end_at'
+        'winer_id', 'loster_id'
     ];
 
     public function players(){
