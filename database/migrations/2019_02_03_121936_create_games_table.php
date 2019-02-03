@@ -17,8 +17,8 @@ class CreateGamesTable extends Migration
             $table->increments('id')->unique();
             $table->unsignedInteger('winer_id')->default(0);
             $table->unsignedInteger('loster_id')->default(0);
-            $table->dateTime('begin_at')->nullable();
-            $table->dateTime('end_at')->nullable();
+            //$table->dateTime('begin_at')->nullable();
+            //$table->dateTime('end_at')->nullable();
             $table->timestamps();
         });
     }
